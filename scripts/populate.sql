@@ -4,7 +4,7 @@ set search_path to hse_project, public;
 insert into Users(email, username, password, registeredAt) values
     ('dima@example.com', 'dima', 'password-dima', '2024-12-01 12:30:00'),
     ('vlad@example.com', 'vlad', 'password-vlad', '2024-11-30 00:30:00'),
-     ('alice.johnson@example.com', 'aliceJ21', 'mypassword789', '2024-10-10 11:30:00'),
+    ('alice.johnson@example.com', 'aliceJ21', 'mypassword789', '2024-10-10 11:30:00'),
     ('bob.brown@example.com', 'bobbyB123', 'pass987654', '2024-10-15 16:45:00'),
     ('charlie.white@example.com', 'charlieW88', 'charliePassword!', '2024-10-20 08:00:00');
 
