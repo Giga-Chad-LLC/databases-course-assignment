@@ -22,4 +22,4 @@
 - `Movies`
 
 ## Задание 6
-TBD...
+Файл [queries.sql](./scripts/queries.sql), в нем имплементированы 5 более сложных запросов (`GROUP BY` + `HAVING`, `ORDER BY`, windowed queries).

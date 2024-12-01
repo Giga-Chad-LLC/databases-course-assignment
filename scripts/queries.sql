@@ -24,10 +24,28 @@ order by sum(minutesDiff) desc;
 -- Order by
 -- Самые дорогие фильмы по убыванию цены и пользователь, которых их купил
 select u.username, m.title, mp.price from Purchases pc
-left join MoviePrices mp on pc.movieId = mp.movieId and pc.purchasedAt >= mp.validSince and pc.purchasedAt <= mp.validUntil
+left join MoviePrices mp on
+    pc.movieId = mp.movieId and
+    pc.purchasedAt >= mp.validSince and
+    pc.purchasedAt <= mp.validUntil
 left join Movies m on m.id = pc.movieId
 left join Users u on u.id = pc.userId
 order by mp.price desc;
+
+-- Самые популярные фильмы по числу минут просмотра
+with MovieViewTime as (
+    select
+        mv.title,
+        coalesce(
+            extract(epoch from (vh.viewingFinishedAt - vh.viewingStartedAt)) / 60,
+            0
+        ) as minutesViewed
+    from ViewingHistory vh
+    full join Movies mv on mv.id = vh.movieId
+)
+select title, sum(minutesViewed) as viewTime from MovieViewTime
+group by title
+order by viewTime desc;
 
 -- Window function
 -- Фильмы с самой маленькой актуальной ценой для каждого языка
