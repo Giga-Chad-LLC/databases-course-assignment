@@ -9,6 +9,18 @@ group by l.language
 having count(m.id) >= 1
 order by count(m.id) desc;
 
+-- Пользователи отсортированные по числу минут в онлайне
+with OnlineDurations as (
+    select
+        u.username,
+        extract(epoch from (lg.leftAt - lg.gotOnlineAt)) / 60 AS minutesDiff
+    from Users u
+    left join UsersOnlineLog lg on lg.userId = u.id
+)
+select username, sum(minutesDiff) from OnlineDurations
+group by username
+order by sum(minutesDiff) desc;
+
 -- Order by
 -- Самые дорогие фильмы по убыванию цены и пользователь, которых их купил
 select u.username, m.title, mp.price from Purchases pc
@@ -19,7 +31,7 @@ order by mp.price desc;
 
 -- Window function
 -- Фильмы с самой маленькой актуальной ценой для каждого языка
-with ranked_movies as (
+with RankedMovies as (
     select l.language,
         m.title,
         p.price as minPrice,
@@ -30,5 +42,5 @@ with ranked_movies as (
         left join Languages l on l.id = ml.languageId
    where p.validSince <= now() and p.validUntil >= now()
 )
-select language, title, minPrice from ranked_movies
+select language, title, minPrice from RankedMovies
 where rankByPrice = 1;
