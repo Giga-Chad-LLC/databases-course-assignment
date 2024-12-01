@@ -21,17 +21,6 @@ select username, sum(minutesDiff) from OnlineDurations
 group by username
 order by sum(minutesDiff) desc;
 
--- Order by
--- Самые дорогие фильмы по убыванию цены и пользователь, которых их купил
-select u.username, m.title, mp.price from Purchases pc
-left join MoviePrices mp on
-    pc.movieId = mp.movieId and
-    pc.purchasedAt >= mp.validSince and
-    pc.purchasedAt <= mp.validUntil
-left join Movies m on m.id = pc.movieId
-left join Users u on u.id = pc.userId
-order by mp.price desc;
-
 -- Самые популярные фильмы по числу минут просмотра
 with MovieViewTime as (
     select
@@ -46,6 +35,17 @@ with MovieViewTime as (
 select title, sum(minutesViewed) as viewTime from MovieViewTime
 group by title
 order by viewTime desc;
+
+-- Order by
+-- Самые дорогие фильмы по убыванию цены и пользователь, которых их купил
+select u.username, m.title, mp.price from Purchases pc
+left join MoviePrices mp on
+    pc.movieId = mp.movieId and
+    pc.purchasedAt >= mp.validSince and
+    pc.purchasedAt <= mp.validUntil
+left join Movies m on m.id = pc.movieId
+left join Users u on u.id = pc.userId
+order by mp.price desc;
 
 -- Window function
 -- Фильмы с самой маленькой актуальной ценой для каждого языка
