@@ -15,7 +15,7 @@ create table if not exists UsersOnlineLog(
     id serial primary key,
     userId int not null references Users(id),
     gotOnlineAt timestamptz not null,
-    leftAt timestamptz not null,
+    leftAt timestamptz not null, -- supposed to be max date when the user is online, when user leaves the last log's `leftAt` field is updated
     constraint chk_valid_visit_times check (gotOnlineAt <= leftAt)
 );
 
