@@ -26,11 +26,14 @@ with OnlineLogsSorted as (
 )
 select
     userId,
+    u.username,
+    u.email,
     case
         when gotOnlineAt <= now() and leftAt >= now() then true
         else false
     end as isOnline
 from OnlineLogsSorted
+left join hse_project.Users u on u.id = userId
 where rn = 1;
 
 -- [Movies] для фильмов особо нечего вьюить 🤷‍♂️
